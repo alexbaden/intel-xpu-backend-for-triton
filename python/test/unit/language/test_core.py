@@ -174,7 +174,9 @@ def check_type_supported(dtype, device):
                 "float8e4b15", torch.bfloat16, torch.float8_e4m3fn, "float8_e4m3fn", torch.float8_e5m2, "float8_e5m2"
         ]:
             pytest.xfail("bfloat16 and float8 are not supported in the interpreter")
-
+    elif device in ['xpu']:
+        if dtype in [torch.float64, "float64"] and not xpu_has_fp64():
+            pytest.xfail("float64 not supported on current xpu hardware")
 
 class MfmaLayout:
 
